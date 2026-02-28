@@ -1,0 +1,25 @@
+{
+  "name": "stacklive-code-generator",
+  "version": "1.0.0",
+  "description": "AI-powered code generation app that produces StackLive render-only embeds and full apps",
+  "main": "dist/app.bundle.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && node build.js",
+    "dev": "tsc --watch",
+    "serve": "python3 -m http.server 8000",
+    "start": "npm run build && npm run serve"
+  },
+  "keywords": [
+    "stacklive",
+    "code-generator",
+    "ai",
+    "embeds",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
