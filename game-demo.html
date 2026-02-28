@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Game Demo</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      color: white;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .demo-section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .demo-section h2 {
+      margin-top: 0;
+      color: #333;
+    }
+    
+    .code-block {
+      background: #f5f5f5;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 Game Mode Architecture Demo</h1>
+    
+    <div class="demo-section">
+      <h2>Architecture Overview</h2>
+      <p>This demo showcases the render-only game pattern with separated concerns:</p>
+      <ul>
+        <li><strong>types.ts</strong> - Type definitions for game state and actions</li>
+        <li><strong>store.ts</strong> - Centralized state management with pub-sub pattern</li>
+        <li><strong>engine.ts</strong> - Pure game logic (no rendering)</li>
+        <li><strong>game-layout.ts</strong> - Reusable layout helpers (4:3 aspect ratio)</li>
+        <li><strong>memory-game.ts</strong> - Render-only component (UI only)</li>
+      </ul>
+    </div>
+    
+    <div class="demo-section">
+      <h2>Live Demo: Memory Game</h2>
+      <p>Click "Start Game" to begin matching card pairs!</p>
+      <memory-game></memory-game>
+    </div>
+    
+    <div class="demo-section">
+      <h2>Code Structure</h2>
+      <div class="code-block">
+src/lib/game/
+├── types.ts          # GameState, GameAction, GameCard interfaces
+├── store.ts          # GameStore class for state management
+├── engine.ts         # GameEngine base class + utilities
+├── game-layout.ts    # renderGameSurface, CSS helpers
+└── index.ts          # Main entry point
+
+src/embeds/
+└── memory-game.ts    # Render-only Memory Game component
+      </div>
+    </div>
+    
+    <div class="demo-section">
+      <h2>Key Features</h2>
+      <ul>
+        <li>✅ <strong>Separation of Concerns</strong> - Logic separated from rendering</li>
+        <li>✅ <strong>Reactive Updates</strong> - UI automatically updates on state change</li>
+        <li>✅ <strong>Responsive Design</strong> - 4:3 aspect ratio with breakpoints</li>
+        <li>✅ <strong>Reusable Components</strong> - Game layout helpers for all games</li>
+        <li>✅ <strong>Type Safety</strong> - Full TypeScript support</li>
+        <li>✅ <strong>Testable</strong> - Engine logic can be tested independently</li>
+      </ul>
+    </div>
+  </div>
+  
+  <script src="dist/app.bundle.js"></script>
+</body>
+</html>

@@ -21,12 +21,18 @@ const files = [
   'lib/base-embed.js',
   'lib/llm-provider.interface.js',
   'lib/prompt-compiler.js',
+  'lib/game/types.js',
+  'lib/game/store.js',
+  'lib/game/engine.js',
+  'lib/game/game-layout.js',
+  'lib/game/index.js',
   'embeds/generator-form.js',
   'embeds/prompt-preview.js',
   'embeds/generate-action.js',
   'embeds/file-output.js',
   'embeds/live-preview.js',
   'embeds/settings.js',
+  'embeds/memory-game.js',
   'openai-provider.js',
   'app.manifest.js'
 ];
@@ -40,6 +46,10 @@ files.forEach(file => {
     // Remove export/import statements for bundling
     content = content.replace(/^export\s+/gm, '');
     content = content.replace(/^import\s+.+from\s+.+;?\s*$/gm, '');
+    // Remove export { ... } from '...' statements
+    content = content.replace(/^export\s*\{[^}]+\}\s*from\s+.+;?\s*$/gm, '');
+    // Remove remaining { ... } from '...' statements (leftover from above)
+    content = content.replace(/^\{[^}]+\}\s*from\s+.+;?\s*$/gm, '');
     bundle += `// ${file}\n${content}\n\n`;
   } catch (error) {
     console.warn(`Warning: Could not read ${file}:`, error.message);
