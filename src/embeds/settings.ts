@@ -209,7 +209,8 @@ export class SettingsEmbed extends BaseEmbed {
   }
 
   private clearApiKey(): void {
-    if (confirm('Are you sure you want to remove the saved API key?')) {
+    const confirmClear = this.showConfirm('Are you sure you want to remove the saved API key?');
+    if (confirmClear) {
       localStorage.removeItem('openai_api_key');
       this.showStatus('API key cleared', 'info');
       
@@ -220,6 +221,11 @@ export class SettingsEmbed extends BaseEmbed {
 
       setTimeout(() => this.render(), 1000);
     }
+  }
+
+  private showConfirm(message: string): boolean {
+    // Simple inline confirmation - in a production app, use a modal
+    return confirm(message);
   }
 
   private showStatus(message: string, type: 'success' | 'error' | 'info'): void {
