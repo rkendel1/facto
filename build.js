@@ -18,6 +18,8 @@ const files = [
   'embeds/generate-action.js',
   'embeds/file-output.js',
   'embeds/live-preview.js',
+  'embeds/settings.js',
+  'openai-provider.js',
   'app.manifest.js'
 ];
 
