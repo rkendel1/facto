@@ -66,7 +66,7 @@ The app will be available at `http://localhost:8000`
 
 ## 🔌 LLM Integration
 
-The app uses a vendor-agnostic interface for code generation:
+The app uses OpenAI by default with a vendor-agnostic interface for code generation:
 
 ```typescript
 interface CodegenProvider {
@@ -74,9 +74,21 @@ interface CodegenProvider {
 }
 ```
 
-### Using a Real AI Provider
+### Setting Up OpenAI
 
-Replace the mock provider in `app.manifest.ts`:
+1. **Get an API Key**: Visit [OpenAI Platform](https://platform.openai.com/api-keys) and create an API key
+
+2. **Configure in the App**: 
+   - Open the application
+   - Find the "OpenAI Settings" panel at the top
+   - Enter your API key (starts with `sk-`)
+   - Click "Save"
+
+Your API key is stored securely in browser localStorage and never sent anywhere except to OpenAI's API.
+
+### Using a Different AI Provider
+
+Replace the OpenAI provider with your own implementation:
 
 ```typescript
 import { AppController } from './app.manifest';

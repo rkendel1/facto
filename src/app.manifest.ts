@@ -8,8 +8,10 @@ import { PromptPreviewEmbed } from './embeds/prompt-preview';
 import { GenerateActionEmbed } from './embeds/generate-action';
 import { FileOutputEmbed } from './embeds/file-output';
 import { LivePreviewEmbed } from './embeds/live-preview';
+import { SettingsEmbed } from './embeds/settings';
 import { buildPrompt, type GeneratorConfig } from './lib/prompt-compiler';
 import type { CodegenProvider, GeneratedFile } from './lib/llm-provider.interface';
+import { OpenAICodegenProvider } from './openai-provider';
 
 /**
  * Mock LLM Provider for demonstration
@@ -96,6 +98,7 @@ export class AppController {
   private actionEmbed: GenerateActionEmbed;
   private outputEmbed: FileOutputEmbed;
   private livePreviewEmbed: LivePreviewEmbed;
+  private settingsEmbed: SettingsEmbed | null;
   private provider: CodegenProvider;
 
   constructor() {
@@ -104,11 +107,29 @@ export class AppController {
     this.actionEmbed = document.querySelector('generate-action') as GenerateActionEmbed;
     this.outputEmbed = document.querySelector('file-output') as FileOutputEmbed;
     this.livePreviewEmbed = document.querySelector('live-preview') as LivePreviewEmbed;
+    this.settingsEmbed = document.querySelector('settings-embed') as SettingsEmbed | null;
     
-    // Use mock provider - replace with real provider in production
-    this.provider = new MockCodegenProvider();
+    // Initialize OpenAI provider
+    this.provider = this.createProvider();
 
     this.initialize();
+  }
+
+  private createProvider(): CodegenProvider {
+    const apiKey = localStorage.getItem('openai_api_key');
+    
+    if (apiKey) {
+      // Use OpenAI if API key is available
+      return new OpenAICodegenProvider({
+        apiKey,
+        model: 'gpt-4',
+        maxTokens: 4096,
+        temperature: 0.7
+      });
+    } else {
+      // Use mock provider if no API key
+      return new MockCodegenProvider();
+    }
   }
 
   private initialize(): void {
@@ -121,6 +142,19 @@ export class AppController {
     this.actionEmbed?.addEventListener('generate:start', () => {
       this.handleGenerate();
     });
+
+    // Listen to API key changes
+    if (this.settingsEmbed) {
+      this.settingsEmbed.addEventListener('apikey:saved', () => {
+        this.provider = this.createProvider();
+        this.showSuccess('OpenAI provider activated!');
+      });
+
+      this.settingsEmbed.addEventListener('apikey:cleared', () => {
+        this.provider = this.createProvider();
+        this.showSuccess('Switched to mock provider');
+      });
+    }
   }
 
   private handleConfigChange(config: GeneratorConfig): void {
@@ -163,7 +197,7 @@ export class AppController {
     } catch (error) {
       console.error('Generation failed:', error);
       this.actionEmbed?.setGenerating(false);
-      alert('Generation failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
+      this.showError('Generation failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
     }
   }
 
@@ -173,6 +207,47 @@ export class AppController {
    */
   public setProvider(provider: CodegenProvider): void {
     this.provider = provider;
+  }
+
+  /**
+   * Show error message in UI
+   */
+  private showError(message: string): void {
+    this.showNotification(message, '#dc3545');
+  }
+
+  /**
+   * Show success message in UI
+   */
+  private showSuccess(message: string): void {
+    this.showNotification(message, '#28a745');
+  }
+
+  /**
+   * Show notification in UI
+   */
+  private showNotification(message: string, color: string): void {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${color};
+      color: white;
+      padding: 16px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      max-width: 400px;
+      animation: slideIn 0.3s ease;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.style.animation = 'slideOut 0.3s ease';
+      setTimeout(() => notification.remove(), 300);
+    }, 5000);
   }
 }
 
