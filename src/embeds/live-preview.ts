@@ -4,8 +4,24 @@
  */
 
 import { BaseEmbed } from '../lib/base-embed';
+import type { EmbedManifest } from '../lib/embed-manifest';
 
 export class LivePreviewEmbed extends BaseEmbed {
+  /**
+   * Embed manifest metadata
+   */
+  static manifest: EmbedManifest = {
+    tag: 'live-preview',
+    name: 'Live Preview',
+    category: 'media',
+    description: 'Runtime preview of generated embeds',
+    version: '1.0.0',
+    defaultProps: {
+      brand_colors_primary: '#0066cc',
+      brand_colors_surface: '#f8f9fa'
+    }
+  };
+
   private previewContent: string = '';
 
   protected render(): void {

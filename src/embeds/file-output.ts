@@ -5,8 +5,24 @@
 
 import { BaseEmbed } from '../lib/base-embed';
 import type { GeneratedFile } from '../lib/llm-provider.interface';
+import type { EmbedManifest } from '../lib/embed-manifest';
 
 export class FileOutputEmbed extends BaseEmbed {
+  /**
+   * Embed manifest metadata
+   */
+  static manifest: EmbedManifest = {
+    tag: 'file-output',
+    name: 'File Output',
+    category: 'content',
+    description: 'Display generated code files with copy and download',
+    version: '1.0.0',
+    defaultProps: {
+      brand_colors_primary: '#0066cc',
+      brand_colors_surface: '#ffffff'
+    }
+  };
+
   private files: GeneratedFile[] = [];
 
   protected render(): void {

@@ -4,8 +4,24 @@
  */
 
 import { BaseEmbed } from '../lib/base-embed';
+import type { EmbedManifest } from '../lib/embed-manifest';
 
 export class SettingsEmbed extends BaseEmbed {
+  /**
+   * Embed manifest metadata
+   */
+  static manifest: EmbedManifest = {
+    tag: 'settings-embed',
+    name: 'Settings',
+    category: 'utility',
+    description: 'Configuration panel for API keys and settings',
+    version: '1.0.0',
+    defaultProps: {
+      brand_colors_primary: '#0066cc',
+      brand_colors_surface: '#ffffff'
+    }
+  };
+
   protected render(): void {
     const savedApiKey = localStorage.getItem('openai_api_key') || '';
     const hasApiKey = savedApiKey.length > 0;

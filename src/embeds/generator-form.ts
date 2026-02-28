@@ -5,9 +5,25 @@
 
 import { BaseEmbed } from '../lib/base-embed';
 import type { GeneratorConfig } from '../lib/prompt-compiler';
+import type { EmbedManifest } from '../lib/embed-manifest';
 
 export class GeneratorFormEmbed extends BaseEmbed {
-  private config: GeneratorConfig = {
+  /**
+   * Embed manifest metadata
+   */
+  static manifest: EmbedManifest = {
+    tag: 'generator-form',
+    name: 'Generator Form',
+    category: 'generator',
+    description: 'Structured form for describing code generation requirements',
+    version: '1.0.0',
+    defaultProps: {
+      brand_colors_primary: '#0066cc',
+      brand_colors_surface: '#ffffff'
+    }
+  };
+
+  private generatorConfig: GeneratorConfig = {
     mode: 'single-embed',
     name: '',
     description: '',
@@ -255,7 +271,7 @@ export class GeneratorFormEmbed extends BaseEmbed {
     const output_manifest = (this.shadow.getElementById('output_manifest') as HTMLInputElement)?.checked || false;
     const output_variants = (this.shadow.getElementById('output_variants') as HTMLInputElement)?.checked || false;
 
-    this.config = {
+    this.generatorConfig = {
       mode,
       name,
       description,
@@ -271,14 +287,14 @@ export class GeneratorFormEmbed extends BaseEmbed {
     };
 
     this.dispatchEvent(new CustomEvent('config:change', {
-      detail: this.config,
+      detail: this.generatorConfig,
       bubbles: true,
       composed: true
     }));
   }
 
   public getConfig(): GeneratorConfig {
-    return this.config;
+    return this.generatorConfig;
   }
 }
 

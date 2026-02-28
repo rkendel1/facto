@@ -4,8 +4,23 @@
  */
 
 import { BaseEmbed } from '../lib/base-embed';
+import type { EmbedManifest } from '../lib/embed-manifest';
 
 export class GenerateActionEmbed extends BaseEmbed {
+  /**
+   * Embed manifest metadata
+   */
+  static manifest: EmbedManifest = {
+    tag: 'generate-action',
+    name: 'Generate Action',
+    category: 'interaction',
+    description: 'CTA button to trigger AI code generation',
+    version: '1.0.0',
+    defaultProps: {
+      brand_colors_primary: '#0066cc'
+    }
+  };
+
   private isGenerating: boolean = false;
   private enabled: boolean = false;
 

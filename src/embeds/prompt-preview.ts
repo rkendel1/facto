@@ -4,8 +4,24 @@
  */
 
 import { BaseEmbed } from '../lib/base-embed';
+import type { EmbedManifest } from '../lib/embed-manifest';
 
 export class PromptPreviewEmbed extends BaseEmbed {
+  /**
+   * Embed manifest metadata
+   */
+  static manifest: EmbedManifest = {
+    tag: 'prompt-preview',
+    name: 'Prompt Preview',
+    category: 'content',
+    description: 'Real-time preview of compiled LLM prompts',
+    version: '1.0.0',
+    defaultProps: {
+      brand_colors_primary: '#0066cc',
+      brand_colors_surface: '#ffffff'
+    }
+  };
+
   private prompt: string = '';
 
   protected render(): void {

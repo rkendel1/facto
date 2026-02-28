@@ -10,6 +10,14 @@ const outputFile = join(distDir, 'app.bundle.js');
 
 // Read all compiled JS files
 const files = [
+  'lib/types.js',
+  'lib/config-metadata.js',
+  'lib/embed-manifest.js',
+  'lib/embed-shared/embedContractProps.js',
+  'lib/runtime-mocks/context-sync.js',
+  'lib/runtime-mocks/runtime.js',
+  'lib/runtime-mocks/dom-application.js',
+  'lib/runtime-mocks/resolve-runtime-context.js',
   'lib/base-embed.js',
   'lib/llm-provider.interface.js',
   'lib/prompt-compiler.js',
